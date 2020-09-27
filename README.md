@@ -4,5 +4,11 @@
 - Entity Famework COre 3.1
 ## Youtube tutorial
 - Youtube Tedu
+## Install Package
+- Microsoft.EntityFrameworkCore.Design
+- Microsoft.EntityFrameworkCore.SqlServer
+- Microsoft.EntityFrameworkCore.Tools
+- Microsoft.Extensions.Configuration.Json
+- Microsoft.Extensions.Configuration.FileExtensions
 ## How to configure and run
 ## How to control

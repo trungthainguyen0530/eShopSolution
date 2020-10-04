@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace eShopSolution.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialSeedData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -56,9 +56,8 @@ namespace eShopSolution.Data.Migrations
                 name: "Languages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(unicode: false, maxLength: 5, nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 200, nullable: false),
+                    Id = table.Column<string>(unicode: false, maxLength: 5, nullable: false),
+                    Name = table.Column<string>(maxLength: 20, nullable: false),
                     IsDefault = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -72,7 +71,7 @@ namespace eShopSolution.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2020, 9, 27, 16, 39, 8, 90, DateTimeKind.Local).AddTicks(5527)),
+                    OrderDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2020, 10, 4, 14, 45, 20, 608, DateTimeKind.Local).AddTicks(8593)),
                     CartId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     ShipName = table.Column<string>(maxLength: 200, nullable: false),
@@ -96,8 +95,7 @@ namespace eShopSolution.Data.Migrations
                     OriginalPrice = table.Column<decimal>(nullable: false),
                     Stock = table.Column<int>(nullable: false, defaultValue: 0),
                     ViewCount = table.Column<int>(nullable: false, defaultValue: 0),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    SeoAlias = table.Column<string>(nullable: true)
+                    DateCreated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -156,7 +154,7 @@ namespace eShopSolution.Data.Migrations
                     SeoDescription = table.Column<string>(maxLength: 500, nullable: true),
                     SeoTitle = table.Column<string>(maxLength: 200, nullable: true),
                     SeoAlias = table.Column<string>(maxLength: 200, nullable: false),
-                    LanguageId = table.Column<int>(unicode: false, maxLength: 5, nullable: false)
+                    LanguageId = table.Column<string>(unicode: false, maxLength: 5, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -261,7 +259,7 @@ namespace eShopSolution.Data.Migrations
                     SeoDescription = table.Column<string>(maxLength: 500, nullable: true),
                     SeoTitle = table.Column<string>(maxLength: 200, nullable: true),
                     SeoAlias = table.Column<string>(maxLength: 200, nullable: true),
-                    LanguageId = table.Column<int>(unicode: false, maxLength: 5, nullable: false)
+                    LanguageId = table.Column<string>(unicode: false, maxLength: 5, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -278,6 +276,64 @@ namespace eShopSolution.Data.Migrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AppConfigs",
+                columns: new[] { "Key", "Value" },
+                values: new object[,]
+                {
+                    { "HomeTitle", "This is home page of eShop" },
+                    { "HomeDescription", "This is home page description of eShop" },
+                    { "HomeKeyword", "This is home page keyword of eShop" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "IsShowOnHome", "ParentId", "SortOrder", "Status" },
+                values: new object[,]
+                {
+                    { 1, true, null, 1, 1 },
+                    { 2, true, null, 2, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Languages",
+                columns: new[] { "Id", "IsDefault", "Name" },
+                values: new object[,]
+                {
+                    { "vi-VN", true, "Tieng Viet" },
+                    { "en-US", false, "English" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "DateCreated", "OriginalPrice", "Price" },
+                values: new object[] { 1, new DateTime(2020, 10, 4, 14, 45, 20, 622, DateTimeKind.Local).AddTicks(1275), 10000m, 15000m });
+
+            migrationBuilder.InsertData(
+                table: "CategoryTranslations",
+                columns: new[] { "Id", "CategoryId", "LanguageId", "Name", "SeoAlias", "SeoDescription", "SeoTitle" },
+                values: new object[,]
+                {
+                    { 1, 1, "vi-VN", "Ao Nam", "ao-nam", "San pham ao thoi trang nam", "Ao Nam" },
+                    { 3, 2, "vi-VN", "Ao Nu", "ao-nu", "San pham ao thoi trang nu", "Ao nu" },
+                    { 2, 1, "en-US", "Men T-Shirt", "Men T-Shirt", "T-Shirt for men", "Men T-Shirt" },
+                    { 4, 2, "en-US", "Women T-Shirt", "Women T-Shirt", "T-Shirt for Women", "Women T-Shirt" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ProductInCategories",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "ProductTranslations",
+                columns: new[] { "Id", "Description", "Details", "LanguageId", "Name", "ProductId", "SeoAlias", "SeoDescription", "SeoTitle" },
+                values: new object[,]
+                {
+                    { 1, "", "Mo ta san pham", "vi-VN", "Ao Nam", 1, "ao-nam", "San pham ao thoi trang nam", "Ao Nam" },
+                    { 2, "", "Description of product", "en-US", "T-Shirt", 1, "T-Shirt", "T-Shirt for men", "T-Shirt" }
                 });
 
             migrationBuilder.CreateIndex(
